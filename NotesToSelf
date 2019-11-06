@@ -9,7 +9,29 @@ git remote show origin
  git commit -m "describe conents of your commit"
  git branch -r (list remote branches)
  git push -u origin <branch> e.g. git push -u origin email_form
-
+ 
+ 
+ using xampp - local web server you can configure SMTP mail.  SMTP mail is called from the PHP script when generating emails from Troop 706 website.
+ 
+ remember to copy your entire web project to e.g.  C:\media\xamppInstall\htdocs
+ Start xampp apache service
+ using your browser, enter url localhost
+ 
+ 1) modify php.ini file which is within the xampp file system- enabling SMTP services
+ 1.1) e.g. 
+	smtp_server=smtp.gmail.com
+	smtp_port=587
+	sendmail_from = krueger.mike@gmail.com
+	sendmail_path = "\"C:\media\xamppInstall\sendmail\sendmail.exe\" -t" 
+ 2) modify sendmail.ini 
+ 2.1) e.g. 
+		smtp_server=smtp.gmail.com
+		smtp_port=587
+		error_logfile=error.log
+		debug_logfile=debug.log
+		auth_username=krueger.mike@gmail.com
+		auth_password=secretpasswordhere
+		force_sender=krueger.mike@gmail.com
  
   
  
