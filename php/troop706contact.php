@@ -1,31 +1,35 @@
 <?php
 /*
- *  Contact Form - Accepts data entered from Troop706 website (html-form) and sends email(s)
+ *  Contact Form - Accepts data entered from Troop706 web site (html-form) and sends email(s)
  *  
- * Pre-requisites:
+ * prerequisites:
  * PHP scripts only run on an application server. 
- * XAMPP application server can be excuted on Windows 10 for testing this script.
+ * XAMPP application server can be executed on Windows 10 for testing this script.
  * 
  * The application server must be configured to execute PHP scripts.
- * The application server must be configured to send emails.
+ * The application server must be configured to send e-mails.
  * . email service can be commented out for testing
  */
  
 //phpinfo(); //spits out php version information and php server configuration
 //exit();
 
-$php_static_from = 'Troop706 Contact Form <mjkrueger@yahoo.com>';
+$php_static_from = "Troop706 Contact Form <mjkrueger@yahoo.com>";
 
-$php_static_sendTo = 'mjkrueger@yahoo.com'; // an email address that will receive the email with the output of the form
+// an email address that will receive the email with the output of the form
+$php_static_sendTo = "mjkrueger@yahoo.com"; 
 
-$okMessage = 'Contact form successfully submitted. Troop706 will get back to you soon!'; // message that will be displayed on website when everything is OK
+// message that will be displayed on website when everything is OK
+$okMessage = "Contact form successfully submitted. Troop706 will get back to you soon!"; 
 
-$errorMessage = 'There was an error while submitting the contact form. Please try again later or contact Website administrator'; // message that will be displayed on website if something goes wrong
+// message that will be displayed on website if something goes wrong
+$errorMessage = "There was an error while submitting the contact form. Please try again later or contact Website administrator"; 
 
 // if you are not debugging and don't need error reporting, turn this off by error_reporting(0);
 //report runtime errors, compile errors are not reported here, this can be set in php.ini file also
 error_reporting(E_ALL & ~E_NOTICE);
 ini_set("display_errors", "On");
+// if you are not debugging and don't need error reporting, turn this off by error_reporting(0);
 error_reporting(0); //detailed SMTP mail() service errors are posted if debug is enabled, comment out this line to enable
 
 /*
@@ -34,49 +38,61 @@ error_reporting(0); //detailed SMTP mail() service errors are posted if debug is
 
 //you can uncomment echo commands if you want to see variables assignment in web browser
 //echo returns these fields back to calling program - so they need to be commented out when not debugging code
-//echo ' name is:' 						.			$_POST['name'] 	; 	//note, variable names, they are not form_xxxx 
-//echo ' surname is:' 				.			$_POST['surname'] 	; 
 
-//foreach ($_POST as $key => $value) {
-//        echo "<br>";
-//	
-//        echo "content of _POST key: $key" . " value:" . $value; //display each name value pair passed into script 
-//	
-//				echo "</br>";
-//    }
+//var_dump($_POST) ;
+
+
+
+//okay, after wasting a great deal time, It seems like when using _POST with data structures you need to use a more specialize call to extract the data structure - in this case, ajax invoked php script with data structure containing email object.  file_get_contents does the trick.
+$emailData = json_decode(file_get_contents("php://input"));
+
+//echo "<BR> emailData";
+//print_r($emailData);
+//echo "<BR>";
+
+//The decoded data will be of type object. To turn it into an Array, you can cast it to type array
+$emailDataArray = (array) $emailData; // cast (convert) the object to an array
+
+//echo "<BR> emailDataArray";
+//print_r($emailDataArray);
+//$lfirstName = $emailDataArray->firstname;
+//echo "lfirstName: $lfirstName";
+
+//echo "<BR> emailDataArray[firstname] $emailDataArray[firstname]";
+//echo "<BR> emailDataArray[surname] $emailDataArray[surname]";
+//echo "<BR> emailDataArray[email] $emailDataArray[email]";
+//echo "<BR> emailDataArray[need] $emailDataArray[need]";
+//echo "<BR> emailDataArray[message] $emailDataArray[message]";
+
+
+
 
 
 try //wrap this in a try block to catch any Exceptions
 {
 	
 	//check mandatory fields are passed from contact form
-	if (!isset($_POST['name'])  )
+	if (!isset($emailDataArray[firstname])  )
 	{
 		throw new Exception('Form is is missing mandatory field  "name"');
 	}
-		if (!isset($_POST['lastname'])  )
+		if (!isset($emailDataArray[surname])  )
 	{
-		throw new Exception('Form is is missing mandatory field "lastname"');
+		throw new Exception('Form is is missing mandatory field "surname"');
 	}
-		if (!isset($_POST['email'])  )
+		if (!isset($emailDataArray[email])  )
 	{
 		throw new Exception('Form is is missing mandatory field "email"');
 	}
-		if (!isset($_POST['need'])  )
+		if (!isset($emailDataArray[need])  )
 	{
 		throw new Exception('Form is is missing mandatory field "need"');
 	}
-			if (!isset($_POST['message'])  )
+			if (!isset($emailDataArray[message])  )
 	{
 		throw new Exception('Form is is missing mandatory field "message"');
 	}
 	
-	//create variables, fields entered on html contact form arrive in an array called _POST (underscore POST)
-	$php_firstname = 	$_POST['name'];
-	$php_surname = 		$_POST['lastname'];
-	$php_fromEmail = 	$_POST['email'];
-	$php_subject = 		$_POST['need'];
-	$php_emailText =	$_POST['message']; // HINT: use preg_replace() to filter the data
 
   // headers for the email.
 	$headers = "From: $php_fromEmail\n";
@@ -84,8 +100,9 @@ try //wrap this in a try block to catch any Exceptions
 	$headers .= "Content-type: text/html; charset=iso-8859-1\n";
     
   // Send email
-	$success = mail($php_static_sendTo, $php_subject, $php_emailText, $headers);
-	
+    $emailSubject = "Troop706 - " . $emailDataArray[need];
+	$success = mail($php_static_sendTo, $emailSubject, $emailDataArray[message], $headers);
+
 	//$success=true; //note, you cant call mail() method when service is not running, it clogs up the works returning unexpected error info to caller when service is in debug mode see error_reporting(0)
 	if ($success) 
 	{
@@ -99,6 +116,7 @@ try //wrap this in a try block to catch any Exceptions
 }
 catch (Exception $e)
 {    
+//echo "Exception" $e
     $responseArray = array(	"type" => "error","message" => $e ); //array variable indicating error, returned to AJAX caller   
     $rc = "error";
 }
@@ -112,6 +130,7 @@ catch (Exception $e)
 
 
 echo $rc;
+
 
 //============================================
 //this function wasnt helpful for me but leaving it here in case its use becomes apparent later
