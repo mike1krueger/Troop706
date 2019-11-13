@@ -358,16 +358,18 @@
           if(this.status == 200) 
           {
 			var rc = this.responseText;
-			console.log( "rc:" + rc ); //send to browser console log
+			var jsonReturnObj = JSON.parse(rc); //Javascript function JSON.parse to parse JSON data
+			console.log("json parse type"+jsonReturnObj.type);
+			console.log("json parse type"+jsonReturnObj.message);
 					
 			// compose Bootstrap alert box HTML
-			var messageAlert = 'alert-' + rc;
-			var messageText = "<h2>successfully sent contact request</h2>";
+			var messageAlert = 'alert-' + jsonReturnObj.type;
+			var messageText = 'Msg ' + jsonReturnObj.message;
 			var alertBox = '<div class="alert ' + messageAlert + 
 				  ' alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + messageText + 
 				  '</div>';
 
-			if (rc == "success") 
+			if (jsonReturnObj.type == "success") 
 			{
 				console.log( "success logic" ); 
 						
@@ -381,20 +383,22 @@
 				document.getElementById("emailButton").setAttribute("disabled","disabled");
 
 				     
-				} else if (rc == "danger")
+				} else if (jsonReturnObj.type == "danger")
 				{
-				  console.log( "danger logic" ); 
+				  console.log( "danger logic" + messageText ); 
 				  //("status").innerHTML = "danger - come back later.";
-				  document.getElementById('status').innerHTML = "<br></br> <h2>danger - come back later</h2>";
+				  document.getElementById('status').innerHTML = "<br></br> <h2>danger come back later - messageText</h2>" + messageText;
 						
 				  //disable the submit button
 				  $(this).prop("disabled",true);
 						
 				  } else 
 				  {
-					 console.log( "error/other return code logic" ); 
-							//error status
-					 document.getElementById('status').innerHTML = "<br></br> <h2>error - come back later</h2>";	
+					 console.log( "error/other return code logic:" + messageText ); 
+					 
+					 //error status
+					 
+					 document.getElementById('status').innerHTML = "<br></br> <h2> error come back later - </h2>" + messageText;	
 					} //end if condition
         } //status 200
       } //end of onload()

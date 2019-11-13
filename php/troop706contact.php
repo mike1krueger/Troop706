@@ -3,21 +3,51 @@
  *  Contact Form - Accepts data entered from Troop706 web site (html-form) and sends email(s)
  *  
  * prerequisites:
- * PHP scripts only run on an application server. 
+ * PHP script will only execute on an application server. 
  * XAMPP application server can be executed on Windows 10 for testing this script.
  * 
- * The application server must be configured to execute PHP scripts.
- * The application server must be configured to send e-mails.
- * . email service can be commented out for testing
  */
+ 
+//Import the PHPMailer class into the global namespace
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+//assert that PHPMailer libraries are defined and located
+require './phpMailLibrary/Exception.php';
+require './phpMailLibrary/PHPMailer.php';
+require './phpMailLibrary/SMTP.php';
+
+ 
  
 //phpinfo(); //spits out php version information and php server configuration
 //exit();
 
-$php_static_from = "Troop706 Contact Form <mjkrueger@yahoo.com>";
+	//https://github.com/PHPMailer/PHPMailer
+	//Server settings
 
-// an email address that will receive the email with the output of the form
-$php_static_sendTo = "mjkrueger@yahoo.com"; 
+	// Instantiation and passing `true` enables exceptions
+	$mail = new PHPMailer(true);
+    //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                  // Enable verbose debug output
+    $mail->isSMTP();                                        // Send using SMTP
+    $mail->Host       = 'smtpout.secureserver.net';         // Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                               // Enable SMTP authentication
+    $mail->Username   = 'admin@bsatroop706.org';           // SMTP username
+    $mail->Password   = 'SHGtroop706!';                    // SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;     // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+    $mail->Port       = 587;                                // TCP port to connect to
+
+    //Recipients
+    $mail->setFrom('admin@bsatroop706.org', 'Mailer');
+    //$mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
+    //$mail->addAddress('ellen@example.com');               // Name is optional
+    //$mail->addReplyTo('info@example.com', 'Information');
+    //$mail->addCC('cc@example.com');
+    //$mail->addBCC('bcc@example.com');
+
+    // Content
+    $mail->isHTML(true);                                  // Set email format to HTML
+
 
 // message that will be displayed on website when everything is OK
 $okMessage = "Contact form successfully submitted. Troop706 will get back to you soon!"; 
@@ -43,29 +73,19 @@ error_reporting(0); //detailed SMTP mail() service errors are posted if debug is
 
 
 
-//okay, after wasting a great deal time, It seems like when using _POST with data structures you need to use a more specialize call to extract the data structure - in this case, ajax invoked php script with data structure containing email object.  file_get_contents does the trick.
+//okay, after wasting a great deal time, when using _POST with data structures you need to use a more specialized call to extract the data structure - in this case, ajax invoked php script with data structure containing email object.  file_get_contents does the trick.
 $emailData = json_decode(file_get_contents("php://input"));
 
-//echo "<BR> emailData";
-//print_r($emailData);
-//echo "<BR>";
 
 //The decoded data will be of type object. To turn it into an Array, you can cast it to type array
 $emailDataArray = (array) $emailData; // cast (convert) the object to an array
 
-//echo "<BR> emailDataArray";
-//print_r($emailDataArray);
-//$lfirstName = $emailDataArray->firstname;
-//echo "lfirstName: $lfirstName";
 
 //echo "<BR> emailDataArray[firstname] $emailDataArray[firstname]";
 //echo "<BR> emailDataArray[surname] $emailDataArray[surname]";
 //echo "<BR> emailDataArray[email] $emailDataArray[email]";
 //echo "<BR> emailDataArray[need] $emailDataArray[need]";
 //echo "<BR> emailDataArray[message] $emailDataArray[message]";
-
-
-
 
 
 try //wrap this in a try block to catch any Exceptions
@@ -94,53 +114,41 @@ try //wrap this in a try block to catch any Exceptions
 	}
 	
 
-  // headers for the email.
-	$headers = "From: $php_fromEmail\n";
-	$headers .= "MIME-Version: 1.0\n"; //notice the period concatenates this field
-	$headers .= "Content-type: text/html; charset=iso-8859-1\n";
+  	// Send email
+    $mail->Subject = 'Troop706 -' . $emailDataArray[need];
+    $mail->Body    = $emailDataArray[message];
+	$mail->addAddress($emailDataArray[email], 'Troop706 member');     // Add a recipient
     
-  // Send email
-    $emailSubject = "Troop706 - " . $emailDataArray[need];
-	$success = mail($php_static_sendTo, $emailSubject, $emailDataArray[message], $headers);
-
-	//$success=true; //note, you cant call mail() method when service is not running, it clogs up the works returning unexpected error info to caller when service is in debug mode see error_reporting(0)
-	if ($success) 
+    if ($mail->send())
 	{
-		$responseArray = array(	"type" => "success", "message" => $okMessage ); //array variable returned to AJAX caller
-		$rc = "success";
+			//array variable returned to AJAX 
+			$responseArray = array('type' => 'success', 'message' => $okMessage);  
+	} else
+	{
+		//array variable returned to AJAX 
+		$errorDetail = "ErrorDetail: " . $mail->ErrorInfo ;
+		$fullErrorResonse = "$errorMessage . $errorDetail";
+	  	$responseArray = array(	"type" => "danger", "message" => $fullErrorResonse ); 
 	}
-	else {
-  	    $responseArray = array(	"type" => "danger", "message" => $errorMessage ); //array variable returned to AJAX caller
-  	    $rc = "danger";
-	}
+	
+    
+    
 }
+catch (phpmailerException $e) {
+  //Pretty error messages from PHPMailer
+  $responseArray = array(	"type" => "error","message" => $e->getMessage() ); //array variable indicating error, returned to AJAX caller
+}  
 catch (Exception $e)
 {    
-//echo "Exception" $e
-    $responseArray = array(	"type" => "error","message" => $e ); //array variable indicating error, returned to AJAX caller   
-    $rc = "error";
+	//echo "Exception: $e" ;
+    $responseArray = array(	"type" => "error","message" => $e->getMessage() ); //array variable indicating error, returned to AJAX caller   
 }
 
-//PROBLEMS parsing json response, lets return success and error for now
 //return json structure to caller (java script/jquery)
-//$encoded = json_encode($responseArray);
-//header('Content-Type: application/json');
-//echo $encoded; //this returns results to caller, make sure you dont have other echo commands enabled in this script or it will fail    
+$encoded = json_encode($responseArray);
+header('Content-Type: application/json');
+echo $encoded; //this returns results to caller, make sure you dont have other echo commands enabled in this script or it will fail    
 
-
-
-echo $rc;
-
-
-//============================================
-//this function wasnt helpful for me but leaving it here in case its use becomes apparent later
-function debug_to_console( $data ) {
-    $output = $data;
-    if ( is_array( $output ) )
-        $output = implode( ',', $output);
-
-    echo "<script>console.log( 'Debug Objects: " . $output . "' );</script>";
-}
 
 //close php file
 ?>
