@@ -13,10 +13,12 @@ git remote show origin
  
  using xampp - local web server you can configure SMTP mail.  SMTP mail is called from the PHP script when generating emails from Troop 706 website.
  
- remember to copy your entire web project to e.g.  C:\media\xamppInstall\htdocs
+copy your entire web project to e.g.  C:\media\xamppInstall\htdocs
  Start xampp apache service
  using your browser, enter url localhost
  
+ 
+ SMTP CONFIGURATION - NOT NEEDED WHEN USING PHPMAILER
  1) modify php.ini file which is within the xampp file system- enabling SMTP services
  1.1) e.g. 
 	smtp_server=smtp.gmail.com
