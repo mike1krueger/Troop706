@@ -25,17 +25,26 @@ require './phpMailLibrary/SMTP.php';
 
 	//https://github.com/PHPMailer/PHPMailer
 	//Server settings
-
+	//	COMMENT OUT mail VARIABLES WHEN TESTING LOCALLY
 	// Instantiation and passing `true` enables exceptions
 	$mail = new PHPMailer(true);
     //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                  // Enable verbose debug output
-    $mail->isSMTP();                                        // Send using SMTP
-    $mail->Host       = 'smtpout.secureserver.net';         // Set the SMTP server to send through
-    $mail->SMTPAuth   = true;                               // Enable SMTP authentication
-    $mail->Username   = 'admin@bsatroop706.org';           // SMTP username
-    $mail->Password   = 'SHGtroop706!';                    // SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;     // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-    $mail->Port       = 587;                                // TCP port to connect to
+    //$mail->isSMTP();                                        // Send using SMTP
+    //$mail->Host       = 'smtpout.secureserver.net';         // Set the SMTP server to send through
+    //$mail->SMTPAuth   = true;                               // Enable SMTP authentication
+    //$mail->Username   = 'admin@bsatroop706.org';           // SMTP username
+    //$mail->Password   = 'SHGtroop706!';                    // SMTP password
+    //$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;     // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+    //$mail->Port       = 587;                                // TCP port to connect to
+
+	//GoDaddy restrictions - per github post https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+	//$mail->SMTPDebug = SMTP::DEBUG_SERVER;
+	$mail->Host = 'localhost';
+	$mail->SMTPAuth = false;
+	$mail->SMTPAutoTLS = false; 
+	$mail->Port = 25; 
+
+
 
     //Recipients
     $mail->setFrom('admin@bsatroop706.org', 'Mailer');
