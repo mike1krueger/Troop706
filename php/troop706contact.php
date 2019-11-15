@@ -122,11 +122,19 @@ try //wrap this in a try block to catch any Exceptions
 		throw new Exception('Form is is missing mandatory field "message"');
 	}
 	
-
+	//email interested parties
+	$mail->addAddress('davestarcher@gmail.com', 'Troop706 Treasurer ');     
+	$mail->addAddress('jedgeld@gmail.com', 'Troop706 Assistant Scout Master ');     
+	$mail->addAddress('shoesf@gmail.com', 'Troop706 Committe Chair ');     
+	$mail->addAddress('william.hand@ngc.com', 'Troop706 Scout Master '); 
+	$mail->addAddress('mjkrueger@yahoo.com', 'Troop706 Committe Member '); 
+	
   	// Send email
-    $mail->Subject = 'Troop706 -' . $emailDataArray[need];
-    $mail->Body    = $emailDataArray[message];
-	$mail->addAddress($emailDataArray[email], 'Troop706 member');     // Add a recipient
+    $mail->Subject = 'Troop706 - ' . $emailDataArray[need];
+    $mail->Body    = 'From:' . $emailDataArray[firstname] . ' ' . $emailDataArray[surname] . '<br>' . 'Request:' . $emailDataArray[message];
+	
+
+	$mail->AddCC($emailDataArray[email], 'Contact Request');
     
     if ($mail->send())
 	{
