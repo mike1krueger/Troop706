@@ -125,9 +125,9 @@ try //wrap this in a try block to catch any Exceptions
 	//email interested parties
 	$mail->addAddress('T706treasurer@gmail.com', 'Troop706 Treasurer ');     
 	$mail->addAddress('jedgeld@gmail.com', 'Troop706 Assistant Scout Master ');     
-	$mail->addAddress('t706committeechairman@gmail.com', 'Troop706 Committe Chair ');     
+	$mail->addAddress('t706committeechairman@gmail.com', 'Troop706 Committee Chair ');     
 	$mail->addAddress('william.hand@ngc.com', 'Troop706 Scout Master '); 
-	$mail->addAddress('mjkrueger@yahoo.com', 'Troop706 Committe Member '); 
+	$mail->addAddress('mjkrueger@yahoo.com', 'Troop706 Committee Member '); 
 	
   	// Send email
     $mail->Subject = 'Troop706 - ' . $emailDataArray[need];
