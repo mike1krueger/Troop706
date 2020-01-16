@@ -128,7 +128,7 @@ try //wrap this in a try block to catch any Exceptions
 	$mail->addAddress('t706committeechairman@gmail.com', 'Troop706 Committee Chair ');     
 	$mail->addAddress('william.hand@ngc.com', 'Troop706 Scout Master '); 
 	$mail->addAddress('mjkrueger@yahoo.com', 'Troop706 Committee Member '); 
-	$mail->addAddress('troop706dvancement@gmail.com', 'Troop706 Advancement Chair '); 
+	$mail->addAddress('troop706advancement@gmail.com', 'Troop706 Advancement Chair '); 
 	
 	
   	// Send email
