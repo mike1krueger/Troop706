@@ -36,12 +36,24 @@ copy your entire web project to e.g.  C:\media\xamppInstall\htdocs
 		force_sender=krueger.mike@gmail.com
  
  Working with git from STS eclipse
+ 
+start by traversing to "master" branch; 
+then pull in any changes that might have been added to this branch
+e.g. 
+git status (confirm your on master)
+git pull   (pulls changes from master and merges into local branch such that local and remote match)
+Now your ready to start on your new feature 
+Your workflow will look like this
+
+
+ Git Workflow with github remote repository
 1) change to branch "master" for local branch
 2) (git fetch origin) get source from remote github
 3) (git branch yourNewBranch) creates a new branch from master
 4) (git checkout yourNewBranch) switch branches
-4) (git add yourchanged files or .) add files to your brachn
-5) (git commit -m "describe your change") 
-6) (git push origin) push your changes upto github
+5) (git add yourchanged files or .) add files to your brachn
+6) (git commit -m "describe your change") 
+7) (git push --set-upstream origin yourNewBranch) tell remote about your new branch
+8) (git push origin) push your current branch changes upto github
   
  
