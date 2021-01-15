@@ -6,7 +6,7 @@ git remote show origin
  Setup ssh keys to enable sharing of files from command line
 
  git add . (adds all modified files)
- git commit -m "describe conents of your commit"
+ git commit -m "describe content of your commit"
  git branch -r (list remote branches)
  git push -u origin <branch> e.g. git push -u origin email_form
  
@@ -35,5 +35,13 @@ copy your entire web project to e.g.  C:\media\xamppInstall\htdocs
 		auth_password=secretpasswordhere
 		force_sender=krueger.mike@gmail.com
  
+ Working with git from STS eclipse
+1) change to branch "master" for local branch
+2) (git fetch origin) get source from remote github
+3) (git branch yourNewBranch) creates a new branch from master
+4) (git checkout yourNewBranch) switch branches
+4) (git add yourchanged files or .) add files to your brachn
+5) (git commit -m "describe your change") 
+6) (git push origin) push your changes upto github
   
  
