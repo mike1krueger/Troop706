@@ -52,7 +52,7 @@ Your workflow will look like this
 2) (git fetch origin) get source from remote github
 3) (git branch yourNewBranch) creates a new branch from master
 4) (git checkout yourNewBranch) switch branches
-5) (git add yourchanged files or .) add files to your brachn
+5) (git add yourchanged files or .) add files to your branch
 6) (git commit -m "describe your change") 
 7) (git push --set-upstream origin yourNewBranch) tell remote about your new branch
 8) (git push origin) push your current branch changes upto github
