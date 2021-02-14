@@ -306,17 +306,30 @@
       
        <h6 class="text-uppercase font-weight-bold"> Other Links</h6>
 
-          <img src="./images/shutterfly.png" alt="Shutterfly Link" style="width:32px;height:32px;border:0;">
+        <img src="./images/shutterfly.png" alt="Shutterfly Link" style="width:32px;height:32px;border:0;">
         <a href="https://troop706glyndon.shutterfly.com/" target="_blank">  Shutterfly</a>		
         
         <img src="./images/Facebook.png" alt="Facebook Link" style="width:42px;height:42px;border:0;">
         <a href="https://www.facebook.com/Troop706/" 	  target="_blank"> Facebook </a>			
    			
       
-      <!-- add SEABASE Support This section can be removed when SEABASE 2021 is over -->
-      <p></p>
-      <h6 class="text-uppercase font-weight-bold"> Sea Base 2021</h6>
-      <a href="./assets/2021SeaBase_Volume1.pdf" target="_blank">Sea Base Newsletter - Volume 1</a>
+      <!-- Contents for SEABASE Support -->
+      <!--  look at creating a new "section" for special events such as seabase -->
+      <br/>  
+      <br/>
+      <br/>
+       	<div class="container-fluid">
+	   	<div class="row">
+       		<div class="col-sm-4" >
+       			<h6 class="text-uppercase font-weight-bold"> Sea Base 2021</h6>  
+       			 <a href="./assets/2021SeaBase_Volume1.pdf" target="_blank">Sea Base Newsletter - Volume 1</a>
+    		</div>
+    		<div class="col-sm-8" >
+     		<p id="timer"></p> <!-- this variable "timer" is updated by coundDownTimer.js -->
+    		</div>
+  		</div>
+  		
+</div> 
       
       <div class="footer-copyright text-center">© 2019 Copyright: bsatroop706.org</div>
     </footer>
@@ -473,6 +486,9 @@
     <script src="./js/jquery.easing.min.js"></script>
     <script src="./js/wow.js"></script> <!-- used in scripts.js not sure how/why -->
     <script src="./js/scripts.js"></script>
+    
+    <!-- add countdown timer for SeaBase 2021 Trip -->
+    <script src="./js/customize/countDownTimer.js"></script> 
     
     <!-- scripts used in email sign ups/contact form - taken from contact form example, see url in signUps section of website-->
     <!-- using CDN (content delivery network, look at downloading them into project so internet connection is not needed when doing development) -->
