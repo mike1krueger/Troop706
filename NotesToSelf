@@ -49,7 +49,7 @@ Now your ready to start on your new feature
 Your workflow will look like this
 
 1) change to branch "master" for local branch
-2) (git fetch origin) get source from remote github
+2) (git fetch origin | git pull) get source from remote github
 3) (git branch yourNewBranch) creates a new branch from master
 4) (git checkout yourNewBranch) switch branches
 5) (git add yourchanged files or .) add files to your branch
