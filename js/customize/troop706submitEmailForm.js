@@ -1,5 +1,5 @@
 /*
- * Java Script code to call server side php script passing in contact form variables
+ * Java Script code to call server side php script passing in contact form variables 
  * 
  * good intro into ajax with examples (Traversy Media):  https://www.youtube.com/watch?v=82hnvUYY6QA
  */
