@@ -52,8 +52,8 @@
           {
 			var rc = this.responseText;
 			var jsonReturnObj = JSON.parse(rc); //Javascript function JSON.parse to parse JSON data
-			console.log("json parse type"+jsonReturnObj.type);
-			console.log("json parse type"+jsonReturnObj.message);
+			console.log("json parse type:"+jsonReturnObj.type);
+			console.log("json parse object:"+jsonReturnObj.message);
 					
 			// compose Bootstrap alert box HTML
 			var messageAlert = 'alert-' + jsonReturnObj.type;
