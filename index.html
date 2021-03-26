@@ -50,6 +50,9 @@
                         <a class="page-scroll" href="#calendar">Calendar</a>
                     </li>
                     <li>
+                        <a class="page-scroll" href="#payments">Payments</a>
+                    </li>
+                    <li>
                         <a class="page-scroll" href="#about">About</a>
                     </li>
                 </ul>
@@ -228,6 +231,62 @@
      </div>
  </section>
   
+  
+  	<!-- paypal  -->
+  	<!-- Example taken from:
+  	 https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/html-example-buy-now/#buy-now-button-that-prompts-for-quantities -->
+  	 <!-- to test you can use sandbox client id and a test userid to login and create a payment, you need to be running on server to complete transactions -->
+  	 <!-- get the login credentials here https://developer.paypal.com/developer/applications when using troop merchant account -->
+  	 
+ 	<section class="container-fluid" id="payments">
+ 	 <form id="payment-form" >
+ 	
+	 		<div class="col-lg-2 col-sm-3 col-xs-6 col-centered feature-title"> 
+							<h2>Campout Payments </h2>  
+	   		</div>
+	   		
+	   		<div class="row">
+	   		 <div class="col-lg-12 col-md-12 col-sm-12">
+	   		  <p>To provide as much convenience as possible Campout Payments can be made here using the pay button below. 
+	   		  Other payments can be made to the Troop706 treasurer using Paypal T706Treasurer@gmail.com "Troop 706 Boy Scouts of America"
+	   		  <br><br>
+	   		  Hand-delivery of payments are always accepted by the Troop Treasurer, preferably at the weekly meetings.
+	   		 </p>
+	   		</div>
+	   		</div>
+
+			<!-- payment format -- copied from https://www.paypal.com/buttons/smart?flowloggingId=8a47de0f82d100 -->
+			<div id="smart-button-container">
+		    	
+		    	<div class="form-group">
+			    	<div style="text-align: left"><label for="description">Troop Campout Name </label>
+			    		<input type="text" name="descriptionInput" id="description" maxlength="127" value="" class="form-control is-invalid" 
+			    		placeholder="Please identify campout">
+			    	</div>
+			      	<p id="descriptionError" style="visibility: hidden; color:red; text-align: left;">Please enter a description</p>
+		      	</div>
+		    	
+		    	<div class="form-group">
+			    	<div style="text-align: left"><label for="amount">Amount </label>
+			    		<input name="amountInput" type="number" id="amount" value="" class="form-control is-invalid"
+			    				placeholder="Amount">
+			    	</div>
+			      	<p id="priceLabelError" style="visibility: hidden; color:red; text-align: left;">Please enter a payment amount</p>
+		    	</div>
+		    	<div id="invoiceidDiv" style="text-align: left; display: none;"><label for="invoiceid"> </label>
+		    		<input name="invoiceid" maxlength="127" type="text" id="invoiceid" value="" >
+		    	</div>
+		      	<p id="invoiceidError" style="visibility: hidden; color:red; text-align: left;">Please enter an Invoice ID</p>
+		    	
+		    	<div style="text-align: left; margin-top: 0.625rem; max-width: 300px;"  id="paypal-button-container">
+		    	</div>
+		    	
+		    	<div class="paymentResponse"> </div> <!-- updated when transaction completes -->
+	  		</div>
+  		</form>
+  	</section>
+  
+  
  <!-- About Section of website -->
  <section class="container-fluid" id="about">
 
@@ -324,6 +383,15 @@
     <script src="./js/customize/countDownTimer.js"></script> 
     <!-- client side script that calls php email request -->
     <script src="./js/customize/troop706submitEmailForm.js"></script>  
+    
+    <!-- paypal payment processing script -->
+    <!-- paypal test client id / sandbox
+    	<script src="https://www.paypal.com/sdk/js?client-id=ATcd6JGp9QsCyKJYcMZLbxLs0_Vnb1XQM1p0SbEwXpdlblD0v8h2acugzbMTvwYZMu9x7lAE48Ly1bg6&currency=USD" data-sdk-integration-source="button-factory"></script>
+    -->
+    <!-- Paypal Live client id / production pays real dollars to t706treasurer@gmail.com -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AWFYlTMWWWtcCXugnh01zz9YF0bScGt_xJZ0UYlcu7FyaXVVtdgGE4iKIkDlI43KUPurZJUBSJa_kuMu&currency=USD" data-sdk-integration-source="button-factory"></script>
+    
+    <script src="./js/customize/payment.js"></script> 
     
     <!-- scripts used in email sign ups/contact form - taken from contact form example, see url in signUps section of website-->
     <!-- using CDN (content delivery network, look at downloading them into project so internet connection is not needed when doing development) -->
