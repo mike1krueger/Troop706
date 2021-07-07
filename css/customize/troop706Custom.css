@@ -8,12 +8,11 @@
 
 .header-content {	  
 	  position: relative;
-    
+    min-height: auto;
     text-align: center;
     color: #003F87; /* --Scouting Blue */
     width: 100%;
     height: 100%;
-    background-size: contain;
     background-color: #c9c9c9;
 		/*up two directory levels and down to images directory*/
     background-image: url('../../images/2021BroadCreekCropped.jpg');
